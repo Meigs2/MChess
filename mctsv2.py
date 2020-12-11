@@ -99,7 +99,7 @@ class Mcts():
         curr_move_policy = self.Policy_vectors[board_hash]
         for move in list(board.legal_moves):
             move_prob = adapter.get_move_prob(curr_move_policy, move)
-            action_heuristic_dict[move] = self.get_ucb(board_hash, move, move_prob * 10.0)
+            action_heuristic_dict[move] = self.get_ucb(board_hash, move, move_prob * 2.0)
         
         # Pick move with max value, make it bigger
         move = max(action_heuristic_dict, key=action_heuristic_dict.get)
@@ -159,8 +159,8 @@ class Mcts():
         # [print(f'Move {move} had chance: {adapter.get_move_prob(self.Policy_vectors[board_hash], move)}') for move in moves]
 
         move = None
-        if len(board.move_stack) < 0:
-            # Play stocastically for first 4 full moves
+        if len(board.move_stack) < 10:
+            # Play stocastically for first 5 full moves
             counts = [x ** (1.0 / t) for x in counts]
             counts_sum = float(sum(counts))
             probs = [x / counts_sum for x in counts]

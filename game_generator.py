@@ -5,6 +5,7 @@ from mctsv2 import Mcts
 import adapter
 from networkv2 import NetworkV2
 import numpy as np
+from pathlib import Path
 
 np.random.seed()
 network = NetworkV2()
@@ -12,7 +13,7 @@ network.load_checkpoint()
 
 board = Board()
 board
-count = 1
+count = 2
 while True:
     mcts = Mcts(network)
     board.reset()
@@ -35,9 +36,9 @@ while True:
     print(board)
     print(board.fen())
     print(board.result())
-
     game.headers["Result"] = board.result()
-    new_pgn = open(f'game.pgn', 'w')
+
+    new_pgn = open(f'samples/game_{count}.pgn', 'w')
     exporter = chess.pgn.FileExporter(new_pgn)
     game.accept(exporter)
     count += 1
